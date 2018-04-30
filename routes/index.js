@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var noticia = require('../models/noticia'); 
+var noticia = require('../models/noticia');
 var mongoose = require('mongoose');
 
 
@@ -11,9 +11,9 @@ router.get('/', function(req, res, next) {
    		for(var i = 0; i < docs.length ; i += chunkSize){
    			productChunks.push(docs.slice(i,i + chunkSize))
    		}
-  		res.render('noticias/index',{products: productChunks}); 	
+  		res.render('noticias/index',{products: productChunks});
    });
-  
+
 });
 
 router.get('/getSort', (req,res,next) => {
@@ -23,7 +23,7 @@ router.get('/getSort', (req,res,next) => {
    		for(var i = 0; i < docs.length ; i += chunkSize){
    			productChunks.push(docs.slice(i,i + chunkSize))
    		}
-  		res.render('noticias/index',{products: productChunks}); 	
+  		res.render('noticias/index',{products: productChunks});
    });
 })
 
@@ -34,7 +34,7 @@ router.get('/getSortByData',(req,res, next)=>{
    		for(var i = 0; i < docs.length ; i += chunkSize){
    			productChunks.push(docs.slice(i,i + chunkSize))
    		}
-  		res.render('noticias/index',{products: productChunks}); 	
+  		res.render('noticias/index',{products: productChunks});
    });
 })
 
@@ -61,15 +61,19 @@ router.post('/noticia',(req,res, next) =>{
 	const {
 		titulo,
 		descripcion,
-		link
+		link,
+    categoria
 
 	} = req.body;
+
+
 	var not = new noticia({
 		titulo,
 		descripcion,
 		link,
 		dia: new Date(),
-		votos: 0
+		votos: 0,
+    categoria
 	});
 	not.save((req, res, err) =>{
 		if(err) return handleError(err);
@@ -102,7 +106,7 @@ router.get('/vote_down/:id', (req, res)=>{
 		task.save().
 			then(()=> res.redirect('/'))
 	})
-}) 
+})
 
 router.get('/eliminar/:id', (req, res) => {
 	var id = req.params.id;
@@ -110,6 +114,28 @@ router.get('/eliminar/:id', (req, res) => {
 		if(err) return next(err);
 		res.redirect('/');
 	})
+});
+
+router.get('/mostrar',(req,res,next) =>{
+  noticia.find({categoria:'mostrar'} , function(err, docs) {
+   		var productChunks = [];
+   		var chunkSize = 15;
+   		for(var i = 0; i < docs.length ; i += chunkSize){
+   			productChunks.push(docs.slice(i,i + chunkSize))
+   		}
+  		res.render('noticias/index',{products: productChunks});
+   });
+})
+
+router.get('/pregunta',(req,res, next) => {
+  noticia.find({categoria:'pregunta'}).sort({votos:-1}).exec( (err, docs) => {
+    var productChunks = [];
+    var chunkSize = 15;
+    for(var i = 0; i < docs.length ; i += chunkSize){
+      productChunks.push(docs.slice(i,i + chunkSize))
+    }
+    res.render('noticias/index',{products: productChunks});
+  })
 })
 
 module.exports = router;

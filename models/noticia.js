@@ -6,9 +6,10 @@ var schema = new Schema({
 	descripcion: {type: String, required: true},
 	link: {type: String, required: true},
 	dia: {type: Date},
-	votos: {type: Number}
+	votos: {type: Number},
+	categoria: {type: String, required: true}
 
-	
+
 });
 
 module.exports = mongoose.model('noticia', schema);

@@ -9,8 +9,8 @@ var path = require('path');
 var routes = require('./routes/index');
 
 var app = express();
-//mongoose.connect('mongodb://localhost:27017/noticiasApp');
-mongoose.connect('mongodb://fran:frano4240@ds247678.mlab.com:47678/noticiasapp')
+mongoose.connect('mongodb://localhost:27017/noticiasApp');
+//mongoose.connect('mongodb://fran:frano4240@ds247678.mlab.com:47678/noticiasapp')
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
