@@ -7,7 +7,7 @@ var schema = new Schema({
 	link: {type: String, required: true},
 	dia: {type: Date},
 	votos: {type: Number},
-	categoria: {type: String, required: true}
+	categoria: {type: String}
 
 
 });
